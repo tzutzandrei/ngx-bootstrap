@@ -179,14 +179,17 @@ export function isMinuteInputValid(minutes: string): boolean {
 export function isSecondInputValid(seconds: string): boolean {
   return !isNaN(parseSeconds(seconds));
 }
+export function isInputLimitValid(diff: Time, max?: Date, min?: Date): boolean {
+  let newDate = setTime(new Date(), diff);
 
-export function isInputLimitValid(diff: Time, max: Date, min: Date): boolean {
-  const newDate = setTime(new Date(), diff);
-
+  if (!newDate) {
+    return false;
+  }
+  newDate.setFullYear(max.getFullYear(), max.getMonth(), max.getDate());	
   if (max && newDate > max) {
     return false;
   }
-
+  newDate.setFullYear(min.getFullYear(), min.getMonth(), min.getDate());	
   if (min && newDate < min) {
     return false;
   }
